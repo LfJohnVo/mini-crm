@@ -9,6 +9,7 @@ use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
+use App\Models\Companie;
 
 class CompanieController extends AppBaseController
 {
@@ -29,7 +30,7 @@ class CompanieController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $companies = $this->companieRepository->paginate(1);
+        $companies = $this->companieRepository->paginate(10);
 
         return view('companies.index')
             ->with('companies', $companies);
@@ -66,9 +67,23 @@ class CompanieController extends AppBaseController
 
         $image = $input['logo'];
         $image->move('uploads', $image->getClientOriginalName());
-        $nombre_tabla = $image->getClientOriginalName();
+        $nombre = $image->getClientOriginalName();
+        $ruta = "/uploads/$nombre";
+        //dd($nombre_tabla);
+        $companie = new Companie;
+        $companie->name = $input['name'];
+        if ($input['email'] != NULL){
+            $companie->email = $input['email'];
+        }
+        if ($input['website'] != NULL){
+            $companie->website = $input['website'];
+        }
+        if ($input['logo'] != NULL){
+            $companie->logo = $ruta;
+        }
 
-        dd($nombre_tabla);
+        $companie->save();
+
 
         Flash::success('Companie saved successfully.');
 
