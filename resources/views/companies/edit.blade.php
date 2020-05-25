@@ -13,7 +13,7 @@
                <div class="row">
                    {!! Form::model($companie, ['route' => ['companies.update', $companie->id], 'method' => 'patch', 'enctype' => 'multipart/form-data']) !!}
 
-                        @include('companies.fields')
+                        @include('companies.editfields')
 
                    {!! Form::close() !!}
                </div>

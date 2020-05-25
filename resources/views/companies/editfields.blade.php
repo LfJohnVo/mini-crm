@@ -1,3 +1,5 @@
+{!! Form::hidden('id', $companie->id) !!}
+
 <!-- Name Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('name', 'Name:') !!}
