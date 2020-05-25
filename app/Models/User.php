@@ -3,12 +3,11 @@
 namespace App\Models;
 
 use Eloquent as Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class User
  * @package App\Models
- * @version May 25, 2020, 10:20 am UTC
+ * @version May 25, 2020, 11:02 am UTC
  *
  * @property string $name
  * @property string $email
@@ -18,15 +17,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class User extends Model
 {
-    use SoftDeletes;
 
     public $table = 'users';
     
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
 
-
-    protected $dates = ['deleted_at'];
 
 
 
