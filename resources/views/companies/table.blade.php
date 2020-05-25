@@ -13,15 +13,27 @@
         @foreach($companies as $companie)
             <tr>
                 <td>{{ $companie->name }}</td>
-                <td>{{ $companie->email }}</td>
                 <td>
-                    @if($companie->logo != NULL)
-                    <img src="{{asset($companie->logo)}}" style="width: 50px;">
+                    @if($companie->email != NULL)
+                        {{$companie->email}}
                     @else
                         <p style="color: red;">Empty</p>
                     @endif
                 </td>
-                <td>{{ $companie->website }}</td>
+                <td>
+                    @if($companie->logo != NULL)
+                        <img src="{{asset($companie->logo)}}" style="width: 50px;">
+                    @else
+                        <p style="color: red;">Empty</p>
+                    @endif
+                </td>
+                <td>
+                    @if($companie->website != NULL)
+                        {{$companie->website}}
+                    @else
+                        <p style="color: red;">Empty</p>
+                    @endif
+                </td>
                 <td>
                     {!! Form::open(['route' => ['companies.destroy', $companie->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>

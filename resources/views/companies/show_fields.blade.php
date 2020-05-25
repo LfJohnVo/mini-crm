@@ -12,8 +12,11 @@
 
 <!-- Logo Field -->
 <div class="form-group">
-    {!! Form::label('logo', 'Logo:') !!}
-    <p>{{ $companie->logo }}</p>
+    @if($companie->logo != NULL)
+        <img src="{{asset($companie->logo)}}" style="width: 150px;">
+    @else
+        <p style="color: red;">Empty</p>
+    @endif
 </div>
 
 <!-- Website Field -->

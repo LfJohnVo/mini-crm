@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Functions\comprobarDominio;
 use App\Http\Requests\CreateCompanieRequest;
 use App\Http\Requests\UpdateCompanieRequest;
 use App\Repositories\CompanieRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
+use Illuminate\Support\Facades\DB;
 use Response;
 use App\Models\Companie;
+use App\Functions\email;
 
 class CompanieController extends AppBaseController
 {
@@ -56,33 +59,48 @@ class CompanieController extends AppBaseController
     public function store()
     {
         //d(request()->all());
-        $input = request()->validate([
+        /*$input = request()->validate([
             'name' => ['required', 'string'],
             'email' => ['email'],
-            'website'   => array(
+            'website' => array(
                 'regex: /^((?:https?\:\/\/|www\.)(?:[-a-z0-9]+\.)*[-a-z0-9]+.*)$/'
             ),
             'logo' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);*/
+        $input = request()->validate([
+            'name' => ['required', 'string'],
+            'email' => [''],
+            'website' => [''],
+            'logo' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        $image = $input['logo'];
-        $image->move('uploads', $image->getClientOriginalName());
-        $nombre = $image->getClientOriginalName();
-        $ruta = "/uploads/$nombre";
-        //dd($nombre_tabla);
-        $companie = new Companie;
-        $companie->name = $input['name'];
-        if ($input['email'] != NULL){
-            $companie->email = $input['email'];
-        }
-        if ($input['website'] != NULL){
-            $companie->website = $input['website'];
-        }
-        if ($input['logo'] != NULL){
+        if (empty($input['logo'])) {
+            $companie = new Companie;
+            $companie->name = $input['name'];
+            if ($input['email'] != NULL) {
+                $companie->email = $input['email'];
+            }
+            if ($input['website'] != NULL) {
+                $companie->website = $input['website'];
+            }
+            $companie->save();
+        } else {
+            $image = $input['logo'];
+            $image->move('uploads', $image->getClientOriginalName());
+            $nombre = $image->getClientOriginalName();
+            $ruta = "/uploads/$nombre";
+            //dd($nombre_tabla);
+            $companie = new Companie;
+            $companie->name = $input['name'];
+            if ($input['email'] != NULL) {
+                $companie->email = $input['email'];
+            }
+            if ($input['website'] != NULL) {
+                $companie->website = $input['website'];
+            }
             $companie->logo = $ruta;
+            $companie->save();
         }
-
-        $companie->save();
 
 
         Flash::success('Companie saved successfully.');
@@ -138,9 +156,17 @@ class CompanieController extends AppBaseController
      *
      * @return Response
      */
-    public function update($id, UpdateCompanieRequest $request)
+    public function update()
     {
-        $companie = $this->companieRepository->find($id);
+        $input = request()->validate([
+            'id' => [''],
+            'name' => ['required', 'string'],
+            'email' => [''],
+            'website' => [''],
+            'logo' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        $companie = $this->companieRepository->find($input['id']);
 
         if (empty($companie)) {
             Flash::error('Companie not found');
@@ -148,7 +174,38 @@ class CompanieController extends AppBaseController
             return redirect(route('companies.index'));
         }
 
-        $companie = $this->companieRepository->update($request->all(), $id);
+        if (empty($input['logo'])) {
+            if ($input['name'] != null) {
+                $companie->name = $input['name'];
+            }
+            if ($input['email'] != null) {
+                $companie->email = $input['email'];
+            }
+            if ($input['website'] != null) {
+                $companie->website = $input['website'];
+            }
+            $companie->save();
+        } else {
+            if ($companie->logo != NULL) {
+                unlink(public_path($companie->logo));
+            }
+            $image = $input['logo'];
+            $image->move('uploads', $image->getClientOriginalName());
+            $nombre = $image->getClientOriginalName();
+            $ruta = "/uploads/$nombre";
+            $companie->logo = $ruta;
+            if ($input['name'] != null) {
+                $companie->name = $input['name'];
+            }
+            if ($input['email'] != null) {
+                $companie->email = $input['email'];
+            }
+            if ($input['website'] != null) {
+                $companie->website = $input['website'];
+            }
+            $companie->save();
+        }
+        //$companie = $this->companieRepository->update($request->all(), $id);
 
         Flash::success('Companie updated successfully.');
 
@@ -160,9 +217,9 @@ class CompanieController extends AppBaseController
      *
      * @param int $id
      *
+     * @return Response
      * @throws \Exception
      *
-     * @return Response
      */
     public function destroy($id)
     {
