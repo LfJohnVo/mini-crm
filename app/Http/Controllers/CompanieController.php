@@ -29,7 +29,7 @@ class CompanieController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $companies = $this->companieRepository->all();
+        $companies = $this->companieRepository->paginate(1);
 
         return view('companies.index')
             ->with('companies', $companies);
@@ -52,11 +52,23 @@ class CompanieController extends AppBaseController
      *
      * @return Response
      */
-    public function store(CreateCompanieRequest $request)
+    public function store()
     {
-        $input = $request->all();
+        //d(request()->all());
+        $input = request()->validate([
+            'name' => ['required', 'string'],
+            'email' => ['email'],
+            'website'   => array(
+                'regex: /^((?:https?\:\/\/|www\.)(?:[-a-z0-9]+\.)*[-a-z0-9]+.*)$/'
+            ),
+            'logo' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
 
-        $companie = $this->companieRepository->create($input);
+        $image = $input['logo'];
+        $image->move('uploads', $image->getClientOriginalName());
+        $nombre_tabla = $image->getClientOriginalName();
+
+        dd($nombre_tabla);
 
         Flash::success('Companie saved successfully.');
 

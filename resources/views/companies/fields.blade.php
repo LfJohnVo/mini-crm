@@ -13,7 +13,7 @@
 <!-- Logo Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('logo', 'Logo:') !!}
-    {!! Form::text('logo', null, ['class' => 'form-control']) !!}
+    {!! Form::file('logo', null,['class' => 'form-control', 'accept="image/*']) !!}
 </div>
 
 <!-- Website Field -->

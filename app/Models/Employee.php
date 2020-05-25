@@ -21,7 +21,7 @@ class Employee extends Model
 {
 
     public $table = 'employees';
-    
+
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
 
@@ -61,8 +61,6 @@ class Employee extends Model
         'first_name' => 'required',
         'last_name' => 'required',
         'company_id' => 'required',
-        'email' => 'required',
-        'phone' => 'required'
     ];
 
     /**

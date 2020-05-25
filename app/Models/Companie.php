@@ -19,7 +19,7 @@ class Companie extends Model
 {
 
     public $table = 'companies';
-    
+
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
 
@@ -53,9 +53,6 @@ class Companie extends Model
      */
     public static $rules = [
         'name' => 'required',
-        'email' => 'required',
-        'logo' => 'required',
-        'website' => 'required'
     ];
 
     /**

@@ -21,8 +21,8 @@ class Employees extends Migration
             $table->foreign('company_id')
                 ->references('id')->on('companies')
                 ->onDelete('cascade');
-            $table->string('email');
-            $table->integer('phone');
+            $table->string('email')->nullable();
+            $table->integer('phone')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
