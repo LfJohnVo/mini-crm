@@ -86,8 +86,9 @@ class CompanieController extends AppBaseController
             $companie->save();
         } else {
             $image = $input['logo'];
-            $image->move('uploads', $image->getClientOriginalName());
-            $nombre = $image->getClientOriginalName();
+            $fileName = sha1_file($image->getRealPath()).''.date("His").''.$image->getClientOriginalName();
+            $image->move('uploads', $fileName);
+            $nombre = $fileName;
             $ruta = "/uploads/$nombre";
             //dd($nombre_tabla);
             $companie = new Companie;
@@ -190,8 +191,9 @@ class CompanieController extends AppBaseController
                 unlink(public_path($companie->logo));
             }
             $image = $input['logo'];
-            $image->move('uploads', $image->getClientOriginalName());
-            $nombre = $image->getClientOriginalName();
+            $fileName = sha1_file($image->getRealPath()).''.date("His").''.$image->getClientOriginalName();
+            $image->move('uploads', $fileName);
+            $nombre = $fileName;
             $ruta = "/uploads/$nombre";
             $companie->logo = $ruta;
             if ($input['name'] != null) {
@@ -224,6 +226,7 @@ class CompanieController extends AppBaseController
     public function destroy($id)
     {
         $companie = $this->companieRepository->find($id);
+        unlink(public_path($companie->logo));
 
         if (empty($companie)) {
             Flash::error('Companie not found');
