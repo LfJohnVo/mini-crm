@@ -1,13 +1,12 @@
 <div class="table-responsive">
-    <table class="table" id="employees-table">
+    <table class="table text-center" id="employees-table">
         <thead>
             <tr>
                 <th>First Name</th>
         <th>Last Name</th>
-        <th>Company Id</th>
+        <th>Company</th>
         <th>Email</th>
         <th>Phone</th>
-        <th>Remember Token</th>
                 <th colspan="3">Action</th>
             </tr>
         </thead>
@@ -16,10 +15,21 @@
             <tr>
                 <td>{{ $employee->first_name }}</td>
             <td>{{ $employee->last_name }}</td>
-            <td>{{ $employee->company_id }}</td>
-            <td>{{ $employee->email }}</td>
-            <td>{{ $employee->phone }}</td>
-            <td>{{ $employee->remember_token }}</td>
+            <td>{{ $employee->name }}</td>
+            <td>
+                @if($employee->email != NULL)
+                    {{$employee->email}}
+                @else
+                    <p style="color: red;">Empty</p>
+                @endif
+            </td>
+            <td>
+                @if($employee->phone != NULL)
+                    {{$employee->phone}}
+                @else
+                    <p style="color: red;">Empty</p>
+                @endif
+            </td>
                 <td>
                     {!! Form::open(['route' => ['employees.destroy', $employee->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>
@@ -33,4 +43,5 @@
         @endforeach
         </tbody>
     </table>
+    {{ $employees->links() }}
 </div>

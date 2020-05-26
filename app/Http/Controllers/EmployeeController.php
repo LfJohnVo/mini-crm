@@ -9,6 +9,9 @@ use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
+use App\Models\Employee;
+use App\Models\Companie;
+use Illuminate\Support\Facades\DB;
 
 class EmployeeController extends AppBaseController
 {
@@ -29,7 +32,13 @@ class EmployeeController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $employees = $this->employeeRepository->all();
+        $employees = DB::table('employees')
+            ->join('companies', 'employees.company_id', '=', 'companies.id')
+            ->select('employees.id', 'employees.first_name', 'employees.last_name', 'employees.email','employees.phone', 'companies.name')
+            ->paginate(10);
+
+        //dd($employees);
+
 
         return view('employees.index')
             ->with('employees', $employees);
@@ -42,7 +51,10 @@ class EmployeeController extends AppBaseController
      */
     public function create()
     {
-        return view('employees.create');
+        $Companie = Companie::all();;
+        //dd($Companie);
+        return view('employees.create')
+            ->with('companies', $Companie);
     }
 
     /**
@@ -80,7 +92,15 @@ class EmployeeController extends AppBaseController
             return redirect(route('employees.index'));
         }
 
-        return view('employees.show')->with('employee', $employee);
+        $compañia = DB::table('employees')
+            ->join('companies', 'employees.company_id', '=', 'companies.id')
+            ->select('companies.name')
+            ->where('employees.id', '=', $id)
+            ->first();
+        //dd($compañia);
+
+        return view('employees.show')->with('employee', $employee)
+            ->with('compañia', $compañia);
     }
 
     /**
@@ -93,6 +113,7 @@ class EmployeeController extends AppBaseController
     public function edit($id)
     {
         $employee = $this->employeeRepository->find($id);
+        $Companie = Companie::all();;
 
         if (empty($employee)) {
             Flash::error('Employee not found');
@@ -100,7 +121,8 @@ class EmployeeController extends AppBaseController
             return redirect(route('employees.index'));
         }
 
-        return view('employees.edit')->with('employee', $employee);
+        return view('employees.edit')->with('employee', $employee)
+            ->with('companies', $Companie);
     }
 
     /**
@@ -133,9 +155,9 @@ class EmployeeController extends AppBaseController
      *
      * @param int $id
      *
+     * @return Response
      * @throws \Exception
      *
-     * @return Response
      */
     public function destroy($id)
     {

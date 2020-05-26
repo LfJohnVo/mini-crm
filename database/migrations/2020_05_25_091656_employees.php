@@ -22,7 +22,7 @@ class Employees extends Migration
                 ->references('id')->on('companies')
                 ->onDelete('cascade');
             $table->string('email')->nullable();
-            $table->integer('phone')->nullable();
+            $table->string('phone')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

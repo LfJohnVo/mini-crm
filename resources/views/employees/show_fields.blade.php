@@ -13,24 +13,32 @@
 <!-- Company Id Field -->
 <div class="form-group">
     {!! Form::label('company_id', 'Company Id:') !!}
-    <p>{{ $employee->company_id }}</p>
+    <p>{{ $compañia->name }}</p>
 </div>
 
 <!-- Email Field -->
 <div class="form-group">
     {!! Form::label('email', 'Email:') !!}
-    <p>{{ $employee->email }}</p>
+    @if($employee->email != NULL)
+        {{$employee->email}}
+    @else
+        <p style="color: red;">Empty</p>
+        @endif</p>
 </div>
 
 <!-- Phone Field -->
 <div class="form-group">
     {!! Form::label('phone', 'Phone:') !!}
-    <p>{{ $employee->phone }}</p>
+    @if($employee->phone != NULL)
+        {{$employee->phone}}
+    @else
+        <p style="color: red;">Empty</p>
+    @endif
 </div>
 
 <!-- Remember Token Field -->
-<div class="form-group">
+<!--<div class="form-group">
     {!! Form::label('remember_token', 'Remember Token:') !!}
     <p>{{ $employee->remember_token }}</p>
-</div>
+</div>-->
 

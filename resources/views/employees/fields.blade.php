@@ -11,9 +11,19 @@
 </div>
 
 <!-- Company Id Field -->
-<div class="form-group col-sm-6">
+<!--div class="form-group col-sm-6">
     {!! Form::label('company_id', 'Company Id:') !!}
     {!! Form::number('company_id', null, ['class' => 'form-control']) !!}
+</div>-->
+
+<div class="form-group col-sm-6">
+    <label for="company_id">Companie</label>
+    <select class="form-control" name="company_id">
+        <option value="" selected disabled>Select companie</option>
+        @foreach($companies as $companie)
+        <option value="{{$companie->id}}">{{$companie->name}}</option>
+        @endforeach
+    </select>
 </div>
 
 <!-- Email Field -->
@@ -25,14 +35,14 @@
 <!-- Phone Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('phone', 'Phone:') !!}
-    {!! Form::number('phone', null, ['class' => 'form-control', 'max' => '12', 'min' => '10']) !!}
+    {!! Form::number('phone', null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Remember Token Field -->
-<div class="form-group col-sm-6">
+<!--<div class="form-group col-sm-6">
     {!! Form::label('remember_token', 'Remember Token:') !!}
     {!! Form::text('remember_token', null, ['class' => 'form-control']) !!}
-</div>
+</div>-->
 
 <!-- Submit Field -->
 <div class="form-group col-sm-12">
