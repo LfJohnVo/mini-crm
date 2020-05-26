@@ -18,4 +18,11 @@ class ExampleTest extends TestCase
 
         $response->assertStatus(200);
     }
+
+    public function login()
+    {
+        $response = $this->get('/companies');
+
+        $response->assertStatus(200);
+    }
 }
