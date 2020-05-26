@@ -25,7 +25,7 @@
 <!-- Phone Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('phone', 'Phone:') !!}
-    {!! Form::number('phone', null, ['class' => 'form-control']) !!}
+    {!! Form::number('phone', null, ['class' => 'form-control', 'max' => '12', 'min' => '10']) !!}
 </div>
 
 <!-- Remember Token Field -->

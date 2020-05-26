@@ -11,7 +11,7 @@
 </div>
 
 <!-- Email Verified At Field -->
-<div class="form-group col-sm-6">
+<!--<div class="form-group col-sm-6">
     {!! Form::label('email_verified_at', 'Email Verified At:') !!}
     {!! Form::text('email_verified_at', null, ['class' => 'form-control','id'=>'email_verified_at']) !!}
 </div>
@@ -25,7 +25,7 @@
         })
     </script>
 @endpush
-
+-->
 <!-- Password Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('password', 'Password:') !!}
@@ -33,11 +33,11 @@
 </div>
 
 <!-- Remember Token Field -->
-<div class="form-group col-sm-6">
+<!--<div class="form-group col-sm-6">
     {!! Form::label('remember_token', 'Remember Token:') !!}
     {!! Form::text('remember_token', null, ['class' => 'form-control']) !!}
 </div>
-
+-->
 <!-- Submit Field -->
 <div class="form-group col-sm-12">
     {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}

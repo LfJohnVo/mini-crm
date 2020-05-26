@@ -7,7 +7,11 @@
 <!-- Email Field -->
 <div class="form-group">
     {!! Form::label('email', 'Email:') !!}
-    <p>{{ $companie->email }}</p>
+    @if($companie->email != NULL)
+    <p>{{$companie->email}}</p>
+    @else
+        <p style="color: red;">Empty</p>
+    @endif
 </div>
 
 <!-- Logo Field -->
@@ -22,6 +26,10 @@
 <!-- Website Field -->
 <div class="form-group">
     {!! Form::label('website', 'Website:') !!}
-    <p>{{ $companie->website }}</p>
+    @if($companie->website != NULL)
+        <p>{{$companie->website}}</p>
+    @else
+        <p style="color: red;">Empty</p>
+    @endif
 </div>
 
